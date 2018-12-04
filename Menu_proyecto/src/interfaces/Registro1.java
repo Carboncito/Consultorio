@@ -1,20 +1,46 @@
 package interfaces;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import menu.proyecto.Conectar;
 
 public class Registro1 extends javax.swing.JFrame {
-    
-    Conectar con;    
+
+    Conectar cc = new Conectar();
+    Connection cn = cc.getConnection();
     
     public Registro1() {
         initComponents();
         //poner el jframe en el centro
         this.setLocationRelativeTo(null);
-        //Conectar a la base de datos
-        con = new Conectar();
-        Connection reg = con.getConnection();
+        //Conectar a la base de datos        
     }
+    public void acceder(String usuario, String password){
+        String calcular = "";
+        String sql = "SELECT * FROM medico WHERE nombre='" + usuario +"' && contraseña='" + password + "'";
+        try{
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            while(rs.next()){
+                calcular = rs.getString("tipousuario");
+            }
+            if (calcular.equals("normal")) {
+                this.setVisible(false);
+                JOptionPane.showMessageDialog(null, "Bienvenido");
+            }
+            if (!calcular.equals("normal")) {
+                JOptionPane.showMessageDialog(this, "Datos erroneos");
+            }
+        }catch(SQLException ex){
+            Logger.getLogger(Registro1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -124,7 +150,9 @@ public class Registro1 extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_contraseñaActionPerformed
 
     private void btn_aceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_aceptarActionPerformed
-    
+        String usu = txt_usuario.getText();
+        String pas = txt_contraseña.getText();
+        acceder(usu, pas);
     }//GEN-LAST:event_btn_aceptarActionPerformed
 
     /**
