@@ -1,6 +1,8 @@
 package menu.proyecto;
 
-public class Paciente implements Pago{
+import interfaces.Pago;
+
+public class Factura implements Pago{
     public void obtenerPago(){
         
     }

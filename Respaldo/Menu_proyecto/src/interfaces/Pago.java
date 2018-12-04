@@ -1,4 +1,4 @@
-package menu.proyecto;
+package interfaces;
 
 public interface Pago {
     public void obtenerPago();
